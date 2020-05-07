@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/mybutton"
-        android:title="Login"
+        android:id="@+id/mybutton2"
+        android:title="POST"
         app:showAsAction="always"
 
         />
