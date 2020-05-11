@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObjRow = jsonArrayTable.getJSONObject(i);
                         final String Cont = jsonObjRow.getString("content");
                         final String date = jsonObjRow.getString("date");
-                        final String user = jsonObjRow.getString("user");
+                        final String Tuser = jsonObjRow.getString("user");
                         btn.setText(jsonObjRow.getString("name"));
                         btn.setId(jsonObjRow.getInt("id"));
                         btn.setTextSize(14);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                 i.putExtra("id", id_);
                                 i.putExtra("FirstCont", Cont);
                                 i.putExtra("date", date);
-                                i.putExtra("user", user);
+                                i.putExtra("user", Tuser);
                                 startActivity(i);
 
                             }
