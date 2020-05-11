@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AddTopic"></activity>
+        <activity android:name=".ViewCont"></activity>
+        <activity android:name=".AddTopic" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>
