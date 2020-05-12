@@ -11,14 +11,14 @@ public class addCommentToServer extends StringRequest {
     private static final String LOGIN_REQUEST_URL = "http://192.168.1.226/addC.php";
     private Map<String, String> params;
 
-    public addCommentToServer(String id,String user,String Comment,String date, Response.Listener<String> listener) {
+    public addCommentToServer(String id,String user,String Comment,String date,String location, Response.Listener<String> listener) {
         super(Method.POST, LOGIN_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put("user", user);
         params.put("Comt", Comment);
         params.put("date", date);
         params.put("id", id);
-
+        params.put("location", location);
     }
 
     @Override
