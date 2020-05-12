@@ -56,12 +56,13 @@ public class addComment extends AppCompatActivity {
             ActivityCompat.requestPermissions(addComment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
             return;
         }
-        locationManager.requestLocationUpdates(commadStr, 1000,0,locationListener);
+        //locationManager.requestLocationUpdates(commadStr, 1000,0,locationListener);
         Location location = locationManager.getLastKnownLocation(commadStr);
         if (location != null){
             getAddress(location.getLatitude(), location.getLongitude());
         } else {
-
+            Toast.makeText(addComment.this,"GPS has problem!",Toast.LENGTH_LONG).show();
+            Locate = "unknown";
         }
     }
 
@@ -79,6 +80,30 @@ public class addComment extends AppCompatActivity {
     }
 
     public void addC(View view){
+        //check GPS permission
+        if (ActivityCompat.checkSelfPermission(addComment.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(addComment.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(addComment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
+            return;
+        }
+        //locationManager.requestLocationUpdates(commadStr, 1000,0,locationListener);
+        PostComment();
+    }
+
+    public void PostComment(){
+        commadStr = LocationManager.GPS_PROVIDER;
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(addComment.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(addComment.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(addComment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
+            return;
+        }
+        //locationManager.requestLocationUpdates(commadStr, 1000,0,locationListener);
+        Location location = locationManager.getLastKnownLocation(commadStr);
+        if (location != null){
+            getAddress(location.getLatitude(), location.getLongitude());
+        } else {
+            Toast.makeText(addComment.this,"GPS has problem!",Toast.LENGTH_LONG).show();
+            Locate = "unknown";
+        }
         EditText edtC;
         edtC = findViewById(R.id.editText);
         final String Comment = edtC.getText().toString();
@@ -114,7 +139,7 @@ public class addComment extends AppCompatActivity {
         queue.add(addCommentToServer);
     }
 
-    public LocationListener locationListener = new LocationListener() {
+    /*public LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             getAddress(location.getLatitude(), location.getLongitude());
@@ -134,19 +159,14 @@ public class addComment extends AppCompatActivity {
         public void onProviderDisabled(String s) {
 
         }
-    };
+    };*/
 
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 1001: {
-                if (ActivityCompat.checkSelfPermission(addComment.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(addComment.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(addComment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
-                    return;
-                }
-                Location location = locationManager.getLastKnownLocation(commadStr);
-                getAddress(location.getLatitude(), location.getLongitude());
+                //PostComment();
 
             }
         }
@@ -164,7 +184,9 @@ public class addComment extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray arrayResult = jsonObject.getJSONArray("results");
                             JSONArray arrComponent = arrayResult.getJSONObject(0).getJSONArray("address_components");
+
                             for (int i = 0; i < arrComponent.length(); i++) {
+
                                 JSONArray arrType = arrComponent.getJSONObject(i).getJSONArray("types");
 
                                 for (int j = 0; j < arrType.length(); j++) {
