@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class ViewCont extends AppCompatActivity {
-    String Topicuser, user;
+    String Topicuser, user, TopicDate, FirstCont;
     int Topicid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,8 @@ public class ViewCont extends AppCompatActivity {
         Intent ReIntent = getIntent();
         Topicid = ReIntent.getIntExtra("id", 0);
         Topicuser = ReIntent.getStringExtra("user");
+        TopicDate = ReIntent.getStringExtra("date");
+        FirstCont = ReIntent.getStringExtra("Cont");
         user = getSharedPreferences("user", MODE_PRIVATE)
                 .getString("user", "");
 
@@ -28,8 +30,12 @@ public class ViewCont extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (TextUtils.isEmpty(user)) {
 
-        getMenuInflater().inflate(R.menu.mymenu4, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.mymenu4, menu);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -41,7 +47,11 @@ public class ViewCont extends AppCompatActivity {
         if (id == R.id.mybutton4) {
             Intent i = new Intent(ViewCont.this, addComment.class);
             i.putExtra("Topicid", Topicid);
+            i.putExtra("Tuser", Topicuser);
+            i.putExtra("date", TopicDate);
+            i.putExtra("Cont", FirstCont);
             startActivity(i);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
