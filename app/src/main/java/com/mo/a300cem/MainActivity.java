@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+            Toast.makeText(MainActivity.this,"You can now login by fingerprint",Toast.LENGTH_LONG).show();
             finish();
         }else if (id == 3) {
             SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
@@ -211,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+            Toast.makeText(MainActivity.this,"fingerprint login has been disabled",Toast.LENGTH_LONG).show();
             finish();
         }
         return super.onOptionsItemSelected(item);

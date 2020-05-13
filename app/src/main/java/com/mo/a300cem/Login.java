@@ -92,8 +92,8 @@ public class Login extends AppCompatActivity implements BiometricCallback {
     }
 
     public void register(View view){
-        //Intent i = new Intent(this, Register.class);
-        //startActivity(i);
+        Intent i = new Intent(this, register.class);
+        startActivity(i);
     }
 
     @Override
