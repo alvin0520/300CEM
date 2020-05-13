@@ -2,11 +2,16 @@ package com.mo.a300cem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.1.226/getTopic.php";
-
+        //String url ="http://192.168.1.226/getTopic.php";
+        String url ="http://10.52.64.224/Testing/getTopic.php";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -77,43 +82,46 @@ public class MainActivity extends AppCompatActivity {
 
                     for (int i = 0; i < jsonArrayTable.length(); i++) {
                         //add a divided line
-                        View line = new View(MainActivity.this);
-                        line.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
-                        line.setBackgroundColor(Color.BLACK);
-                        LL1.addView(line);
+
                         //create button with topic title
                         Button btn = new Button(MainActivity.this);
                         btn.setBackgroundColor(Color.WHITE);
                         btn.setTextColor(Color.BLACK);
+                        btn.setGravity(Gravity.LEFT);
                         JSONObject jsonObjRow = jsonArrayTable.getJSONObject(i);
                         final String Cont = jsonObjRow.getString("content");
                         final String date = jsonObjRow.getString("date");
                         final String Tuser = jsonObjRow.getString("user");
-                        btn.setText(jsonObjRow.getString("name"));
+                        final String Topic2 = jsonObjRow.getString("name");
+                        String innertext2 = "Posted by " + Tuser + "\n" + Topic2;
+                        SpannableString innertext = new SpannableString(innertext2);
+                        innertext.setSpan(new AbsoluteSizeSpan(30, true), 10+Tuser.length(), 10+Tuser.length()+Topic2.length()+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        btn.setAllCaps(false);
+                        btn.setText(innertext);
                         btn.setId(jsonObjRow.getInt("id"));
                         btn.setTextSize(14);
                         final int id_ = btn.getId();
                         LL1.addView(btn);
                         btn = ((Button) findViewById(id_));
-                        btn.setHeight(22);
+                        btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                         //add onclicklistener for each button
                         btn.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View view) {
-
                                 Intent i = new Intent(MainActivity.this, ViewCont.class);
                                 i.putExtra("id", id_);
                                 i.putExtra("FirstCont", Cont);
                                 i.putExtra("date", date);
                                 i.putExtra("user", Tuser);
+                                i.putExtra("Topic", Topic2);
                                 startActivity(i);
-
                             }
                         });
+                        final View line = new View(MainActivity.this);
+                        line.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 40));
+                        line.setBackgroundColor(Color.rgb(250, 250, 250));
+                        LL1.addView(line);
                     }
-                    View line = new View(MainActivity.this);
-                    line.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
-                    line.setBackgroundColor(Color.BLACK);
-                    LL1.addView(line);
+
                 } catch (JSONException e) {
                     TextView tV = new TextView(MainActivity.this);
                     tV.setText(e.toString());
