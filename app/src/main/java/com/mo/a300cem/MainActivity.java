@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         user = getSharedPreferences("user", MODE_PRIVATE)
                 .getString("user", "");
         LL1 = findViewById(R.id.LL1);
+        //show add topic button if user have logged-in
         if (!TextUtils.isEmpty(user)) {
             //set the properties for button
             Button addTopic = new Button(this);
@@ -84,10 +85,8 @@ public class MainActivity extends AppCompatActivity {
                         //add a divided line
 
                         //create button with topic title
-                        Button btn = new Button(MainActivity.this);
-                        btn.setBackgroundColor(Color.WHITE);
-                        btn.setTextColor(Color.BLACK);
-                        btn.setGravity(Gravity.LEFT);
+
+
                         JSONObject jsonObjRow = jsonArrayTable.getJSONObject(i);
                         final String Cont = jsonObjRow.getString("content");
                         final String date = jsonObjRow.getString("date");
@@ -96,11 +95,18 @@ public class MainActivity extends AppCompatActivity {
                         String innertext2 = "Posted by " + Tuser + "\n" + Topic2;
                         SpannableString innertext = new SpannableString(innertext2);
                         innertext.setSpan(new AbsoluteSizeSpan(30, true), 10+Tuser.length(), 10+Tuser.length()+Topic2.length()+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        //Create button for each topic
+                        Button btn = new Button(MainActivity.this);
+                        //set button properties
+                        btn.setBackgroundColor(Color.WHITE);
+                        btn.setTextColor(Color.BLACK);
+                        btn.setGravity(Gravity.LEFT);
                         btn.setAllCaps(false);
                         btn.setText(innertext);
                         btn.setId(jsonObjRow.getInt("id"));
                         btn.setTextSize(14);
                         final int id_ = btn.getId();
+                        //add button to view
                         LL1.addView(btn);
                         btn = ((Button) findViewById(id_));
                         btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -142,10 +148,19 @@ public class MainActivity extends AppCompatActivity {
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //show login button if the user have not login
         if (TextUtils.isEmpty(user)) {
             getMenuInflater().inflate(R.menu.mymenu, menu);
         } else {
-            getMenuInflater().inflate(R.menu.mymenu3, menu);
+            //getMenuInflater().inflate(R.menu.mymenu3, menu);
+            menu.add(1,1,1,"Logout");
+            String Fuser = getSharedPreferences("user", MODE_PRIVATE)
+                    .getString("fuser", "");
+            if (TextUtils.isEmpty(Fuser)) {
+                menu.add(1, 2, 2, "Add FingerPrint Login");
+            } else {
+                menu.add(1, 3, 3, "Delete FingerPrint Login");
+            }
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -162,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             } else {
+
                 SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
                 pref.edit()
                         .putString("user", "")
@@ -171,6 +187,31 @@ public class MainActivity extends AppCompatActivity {
                 finish();
 
             }
+        } else if (id == 1) {
+            //delete the user in sharedpreferences
+            SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+            pref.edit()
+                    .putString("user", "")
+                    .commit();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        } else if (id == 2) {
+            SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+            pref.edit()
+                    .putString("fuser", user)
+                    .commit();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }else if (id == 3) {
+            SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+            pref.edit()
+                    .putString("fuser", "")
+                    .commit();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

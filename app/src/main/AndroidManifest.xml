@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".BiometricLogin"></activity>
         <activity android:name=".addComment" />
         <activity android:name=".ViewCont" />
         <activity android:name=".AddTopic" />

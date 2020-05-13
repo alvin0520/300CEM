@@ -17,13 +17,28 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements BiometricCallback {
     String StrUser, StrPassword;
+    String Fuser;
     private EditText user,password;
+    BiometricManager mBiometricManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Fuser = getSharedPreferences("user", MODE_PRIVATE)
+                .getString("fuser", "");
+        if (!TextUtils.isEmpty(Fuser)){
+            mBiometricManager = new BiometricManager.BiometricBuilder(Login.this)
+                    .setTitle(getString(R.string.biometric_title))
+                    .setSubtitle(getString(R.string.biometric_subtitle))
+                    .setDescription(getString(R.string.biometric_description))
+                    .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+                    .build();
+            //start authentication
+            mBiometricManager.authenticate(Login.this);
+        }
     }
     public void LoginAc(View view){
 
@@ -79,5 +94,59 @@ public class Login extends AppCompatActivity {
     public void register(View view){
         //Intent i = new Intent(this, Register.class);
         //startActivity(i);
+    }
+
+    @Override
+    public void onSdkVersionNotSupported() {
+        Toast.makeText(getApplicationContext(),
+                getString(R.string.biometric_error_sdk_not_supported), Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onBiometricAuthenticationNotSupported() {
+        Toast.makeText(getApplicationContext(),
+                getString(R.string.biometric_error_hardware_not_supported), Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onBiometricAuthenticationNotAvailable() {
+        Toast.makeText(getApplicationContext(),
+                getString(R.string.biometric_error_fingerprint_not_available), Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onBiometricAuthenticationPermissionNotGranted() {
+        Toast.makeText(getApplicationContext(),
+                getString(R.string.biometric_error_permission_not_granted), Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onBiometricAuthenticationInternalError(String error) {
+        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onAuthenticationFailed() {
+        Toast.makeText(Login.this,"Login Fail",Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onAuthenticationCancelled() {
+        Toast.makeText(getApplicationContext(), getString(R.string.biometric_cancelled),
+                Toast.LENGTH_LONG).show();
+        mBiometricManager.cancelAuthentication();
+    }
+    @Override
+    public void onAuthenticationSuccessful() {
+        Toast.makeText(Login.this,"Login Success",Toast.LENGTH_LONG).show();
+        Intent i = new Intent(Login.this, MainActivity.class);
+        SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+        pref.edit()
+                .putString("user", Fuser)
+                .commit();
+        startActivity(i);
+        finish();
+    }
+    @Override
+    public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+// Toast.makeText(getApplicationContext(), helpString, Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onAuthenticationError(int errorCode, CharSequence errString) {
+// Toast.makeText(getApplicationContext(), errString, Toast.LENGTH_LONG).show();
     }
 }
