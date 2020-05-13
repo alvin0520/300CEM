@@ -96,7 +96,7 @@ public class addComment extends AppCompatActivity {
             ActivityCompat.requestPermissions(addComment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
             return;
         }
-        //locationManager.requestLocationUpdates(commadStr, 1000,0,locationListener);
+        locationManager.requestLocationUpdates(commadStr, 1000,0,locationListener);
         Location location = locationManager.getLastKnownLocation(commadStr);
         if (location != null){
             getAddress(location.getLatitude(), location.getLongitude());
@@ -139,7 +139,7 @@ public class addComment extends AppCompatActivity {
         queue.add(addCommentToServer);
     }
 
-    /*public LocationListener locationListener = new LocationListener() {
+    public LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             getAddress(location.getLatitude(), location.getLongitude());
@@ -159,7 +159,7 @@ public class addComment extends AppCompatActivity {
         public void onProviderDisabled(String s) {
 
         }
-    };*/
+    };
 
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
