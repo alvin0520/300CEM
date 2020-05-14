@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class addCommentToServer extends StringRequest {
 
-    //private static final String REQUEST_URL = "http://192.168.1.226/addC.php";
-    private static final String REQUEST_URL = "http://10.52.64.224/Testing/addC.php";
+    private static final String REQUEST_URL = "http://192.168.1.226/addC.php";
+
     private Map<String, String> params;
 
     public addCommentToServer(String id,String user,String Comment,String date,String location, Response.Listener<String> listener) {

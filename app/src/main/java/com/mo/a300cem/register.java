@@ -25,6 +25,7 @@ public class register extends AppCompatActivity {
     }
 
     public void Reg (View view) {
+        //get text from the edittext and change to string
         id = findViewById(R.id.txtId);
         pw = findViewById(R.id.txtPw);
         pw2 = findViewById(R.id.txtPw2);
@@ -33,6 +34,8 @@ public class register extends AppCompatActivity {
         Spw = pw.getText().toString();
         Spw2  = pw2.getText().toString();
 
+
+        //Check the user and password is empty or not, also the password has typed twice with same
         if(TextUtils.isEmpty(Sid)) {
             id.setError("Please input your user name");
             return;
@@ -46,6 +49,7 @@ public class register extends AppCompatActivity {
             return;
         }
 
+        //Send the request by using volley
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

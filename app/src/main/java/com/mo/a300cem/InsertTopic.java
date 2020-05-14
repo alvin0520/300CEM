@@ -8,8 +8,7 @@ import java.util.Map;
 
 public class InsertTopic extends StringRequest {
 
-    //private static final String URL = "http://192.168.1.226/AddTopic.php";
-    private static final String URL = "http://10.52.64.224/Testing/AddTopic.php";
+    private static final String URL = "http://192.168.1.226/AddTopic.php";
     private Map<String, String> params;
 
     public InsertTopic(String user, String date, String title,String Content, Response.Listener<String> listener) {

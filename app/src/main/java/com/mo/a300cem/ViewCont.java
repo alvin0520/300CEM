@@ -49,6 +49,7 @@ public class ViewCont extends AppCompatActivity {
         user = getSharedPreferences("user", MODE_PRIVATE)
                 .getString("user", "");
 
+
         LL2 = findViewById(R.id.LL2);
         LL2.setOrientation(LinearLayout.VERTICAL);
         //add TopicTitle, Topicuser and TopicDate
@@ -74,6 +75,7 @@ public class ViewCont extends AppCompatActivity {
         line2.setBackgroundColor(Color.rgb(115, 115, 115));
         LL2.addView(line2);
 
+        //add the first comment by the topic user post
         TextView TextViewCont = new TextView(this);
         TextViewCont.setText(Cont);
         TextViewCont.setTextSize(18);
@@ -99,7 +101,7 @@ public class ViewCont extends AppCompatActivity {
         LL2.addView(line4);
 
 
-
+        //get all comment by other user by using volley
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -109,6 +111,7 @@ public class ViewCont extends AppCompatActivity {
                     if (success) {
                         JSONArray jsonArrayTable = jsonObj.getJSONArray("Content");
                         for (int i = 0; i < jsonArrayTable.length(); i++) {
+                            //show the comment of other user
                             JSONObject jsonObjRow = jsonArrayTable.getJSONObject(i);
                             String Content = jsonObjRow.getString("content");
                             String Cuser = jsonObjRow.getString("user");
@@ -149,6 +152,7 @@ public class ViewCont extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //add comment button if the user has logged-in
         if (TextUtils.isEmpty(user)) {
 
         } else {

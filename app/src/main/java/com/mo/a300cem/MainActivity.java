@@ -69,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        //String url ="http://192.168.1.226/getTopic.php";
-        String url ="http://10.52.64.224/Testing/getTopic.php";
+        String url ="http://192.168.1.226/getTopic.php";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject jsonObj = new JSONObject(response);
                     JSONArray jsonArrayTable = jsonObj.getJSONArray("topic");
 
-                    for (int i = 0; i < jsonArrayTable.length(); i++) {
+                    for (int i = jsonArrayTable.length()-1; i >= 0; i--) {
                         //add a divided line
 
                         //create button with topic title

@@ -8,8 +8,7 @@ import java.util.Map;
 
 public class ViewC extends StringRequest {
 
-    //private static final String URL = "http://192.168.1.226/ViewC.php";
-    private static final String URL = "http://10.52.64.224/Testing/ViewC.php";
+    private static final String URL = "http://192.168.1.226/ViewC.php";
     private Map<String, String> params;
 
     public ViewC(String id, Response.Listener<String> listener) {
