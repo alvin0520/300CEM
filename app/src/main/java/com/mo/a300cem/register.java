@@ -63,7 +63,7 @@ public class register extends AppCompatActivity {
                         Toast.makeText(register.this,success,Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(register.this,"Fail",Toast.LENGTH_LONG).show();
+                    Toast.makeText(register.this,e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         };
